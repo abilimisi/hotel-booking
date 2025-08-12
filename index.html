@@ -215,15 +215,14 @@
   </div>
 </section>
 
-<!-- Booking Form -->
 <section id="booking" class="section light-bg">
   <h2 class="section-title">Book Your Stay</h2>
-  <form class="booking-form">
-    <input type="text" placeholder="Full Name" required>
-    <input type="email" placeholder="Email" required>
-    <input type="date" required>
-    <input type="date" required>
-    <select required>
+  <form class="booking-form" id="bookingForm">
+    <input type="text" id="name" placeholder="Full Name" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="date" id="checkin" required>
+    <input type="date" id="checkout" required>
+    <select id="roomType" required>
       <option value="">Select Room Type</option>
       <option>Deluxe Room</option>
       <option>Suite Room</option>
@@ -232,6 +231,53 @@
     <button type="submit" class="btn">Confirm Booking</button>
   </form>
 </section>
+
+<script>
+document.getElementById('bookingForm').addEventListener('submit', function(event) {
+  event.preventDefault(); // Prevent form from submitting until validation passes
+
+  let name = document.getElementById('name').value.trim();
+  let email = document.getElementById('email').value.trim();
+  let checkin = document.getElementById('checkin').value;
+  let checkout = document.getElementById('checkout').value;
+  let roomType = document.getElementById('roomType').value;
+
+  // Name validation
+  if (name.length < 3) {
+    alert("Name must be at least 3 characters long.");
+    return;
+  }
+
+  // Email validation (basic pattern)
+  let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(email)) {
+    alert("Please enter a valid email address.");
+    return;
+  }
+
+  // Date validation
+  if (!checkin || !checkout) {
+    alert("Please select both check-in and check-out dates.");
+    return;
+  }
+
+  if (new Date(checkout) <= new Date(checkin)) {
+    alert("Check-out date must be after check-in date.");
+    return;
+  }
+
+  // Room type validation
+  if (roomType === "") {
+    alert("Please select a room type.");
+    return;
+  }
+
+  // If all validations pass
+  alert("Booking confirmed successfully!");
+  this.submit(); // Now allow the form to submit
+});
+</script>
+
 
 <!-- Gallery -->
 <section id="gallery" class="section">
